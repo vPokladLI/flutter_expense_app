@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
+import './transaction.dart';
+import './ui//transactionCard.dart';
+import './ui/addTransactionForm.dart';
+
 class MyHomePage extends StatelessWidget {
-  MyHomePage();
+  final List<Transaction> transactions = [
+    Transaction(title: 'Jeens', value: 10.00, date: DateTime.now()),
+    Transaction(title: 'Jeens', value: 15.50, date: DateTime.now()),
+    Transaction(title: 'Tshort', value: 27.10, date: DateTime.now()),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +18,7 @@ class MyHomePage extends StatelessWidget {
         title: Text('Homepage'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
+        children: [
           Container(
             width: double.infinity,
             child: Card(
@@ -21,10 +27,13 @@ class MyHomePage extends StatelessWidget {
               child: Text('Chart'),
             ),
           ),
-          Card(
-            elevation: 15,
-            child: Text('List of transactions'),
-          )
+          Column(
+              children: transactions
+                  .map(
+                    (e) => TransactionCard(e),
+                  )
+                  .toList()),
+          AdTransactionForm(),
         ],
       ),
     );
