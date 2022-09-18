@@ -17,14 +17,13 @@ class TransactionCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: BoxDecoration(
-                border: Border.all(width: 3, color: Colors.purple)),
+                border: Border.all(
+              width: 3,
+            )),
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: Text(
-              '\$${tx.value}',
-              style: TextStyle(
-                  color: Colors.purple,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
+              '\$${tx.value.toStringAsFixed(2)}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
           ),
           Column(

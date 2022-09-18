@@ -12,6 +12,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Expense app',
       home: MyHomePage(),
+      theme: ThemeData(primarySwatch: Colors.amber),
     );
   }
 }
