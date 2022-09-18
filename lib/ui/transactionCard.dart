@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_app/transaction.dart';
+import 'package:flutter_expense_app/models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction tx;
-  const TransactionCard(this.tx);
+  TransactionCard(this.tx);
 
   @override
   Widget build(BuildContext context) {

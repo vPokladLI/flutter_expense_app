@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AdTransactionForm extends StatelessWidget {
-  const AdTransactionForm({
-    Key key,
-  }) : super(key: key);
+  final Function onSubmit;
+  AdTransactionForm({Key key, this.onSubmit}) : super(key: key);
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+  void onsubmitHandler() {
+    onSubmit(titleController.text, amountController.text);
+    titleController.text = '';
+    amountController.text = '';
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +22,21 @@ class AdTransactionForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
+              controller: titleController,
               decoration: InputDecoration(labelText: 'Title'),
             ),
             TextField(
+              keyboardType: TextInputType.number,
+              controller: amountController,
               decoration: InputDecoration(labelText: 'Amount'),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: onsubmitHandler,
               style: ButtonStyle(
                   overlayColor: MaterialStatePropertyAll(Colors.purple[100]),
                   foregroundColor: MaterialStatePropertyAll(Colors.purple)),
               child: Text('Add transaction'),
-            )
+            ),
           ],
         ),
       ),
