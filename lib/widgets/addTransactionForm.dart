@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddTransactionForm extends StatefulWidget {
   final Function onSubmit;
@@ -10,8 +13,24 @@ class AddTransactionForm extends StatefulWidget {
 
 class _AddTransactionFormState extends State<AddTransactionForm> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+
+  void _presentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2020),
+            lastDate: DateTime.now())
+        .then((date) {
+      if (date == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = date;
+      });
+    });
+  }
 
   void onsubmitHandler() {
     String title = titleController.text;
@@ -19,7 +38,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
     if (title.isEmpty || value <= 0) {
       return;
     }
-    widget.onSubmit(title, value);
+    widget.onSubmit(title, value, _selectedDate);
     titleController.text = '';
     amountController.text = '';
     // FocusManager.instance.primaryFocus?.unfocus();
@@ -46,7 +65,24 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               decoration: InputDecoration(labelText: 'Amount'),
               onEditingComplete: onsubmitHandler,
             ),
-            TextButton(
+            Container(
+              height: 100,
+              child: Row(
+                children: [
+                  Text(
+                    DateFormat.yMd().format(_selectedDate),
+                    style: TextStyle(color: Colors.grey[500], fontSize: 20),
+                  ),
+                  IconButton(
+                      padding: EdgeInsets.all(10),
+                      iconSize: 30,
+                      onPressed: _presentDatePicker,
+                      color: Theme.of(context).primaryColor,
+                      icon: Icon(Icons.calendar_month))
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: onsubmitHandler,
               child: Text('Add transaction'),
             ),

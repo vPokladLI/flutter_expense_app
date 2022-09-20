@@ -13,8 +13,7 @@ class App extends StatelessWidget {
       title: 'Expense app',
       home: MyHomePage(),
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.light(primary: Color.fromARGB(255, 221, 0, 255)),
+        colorSchemeSeed: Color.fromARGB(255, 214, 31, 171),
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
               titleLarge: TextStyle(

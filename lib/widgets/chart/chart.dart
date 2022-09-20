@@ -21,10 +21,10 @@ class Chart extends StatelessWidget {
         }
       }
       return {
-        'day': DateFormat.E().format(weakDay).substring(0, 1),
+        'day': DateFormat.E().format(weakDay).substring(0, 3),
         'amount': totalSumm
       };
-    });
+    }).reversed.toList();
   }
 
   double get _maxSpend {

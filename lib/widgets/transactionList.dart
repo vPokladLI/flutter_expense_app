@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 
-import '../ui/transactionCard.dart';
+import '../ui/transActionTile.dart';
 
 class TransactionsList extends StatelessWidget {
-  const TransactionsList({
-    Key key,
-    @required this.userTransactions,
-  }) : super(key: key);
+  final Function deleteTransaction;
+  const TransactionsList(
+      {Key key,
+      @required this.userTransactions,
+      @required this.deleteTransaction})
+      : super(key: key);
 
   final List<Transaction> userTransactions;
 
@@ -18,7 +20,10 @@ class TransactionsList extends StatelessWidget {
       child: ListView.builder(
         itemCount: userTransactions.length,
         itemBuilder: (context, index) {
-          return TransactionCard(userTransactions[index]);
+          return TransactionTile(
+            tx: userTransactions[index],
+            deleteTransaction: deleteTransaction,
+          );
         },
       ),
     );

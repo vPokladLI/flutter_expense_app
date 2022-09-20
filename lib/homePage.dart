@@ -13,16 +13,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> userTransactions = [];
+
   List<Transaction> get _recentTransactions {
     return userTransactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
     }).toList();
   }
 
-  void addTransaction(String title, double value) {
+  void addTransaction(String title, double value, DateTime date) {
+    date = date == null ? DateTime.now() : date;
     setState(() {
-      userTransactions
-          .add(Transaction(title: title, value: value, date: DateTime.now()));
+      userTransactions.add(Transaction(title: title, value: value, date: date));
+    });
+  }
+
+  void deleteTransaction(String txID) {
+    setState(() {
+      userTransactions.removeWhere((element) => element.id == txID);
     });
   }
 
@@ -53,7 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ? Column(
                 children: [
                   Chart(_recentTransactions),
-                  TransactionsList(userTransactions: userTransactions)
+                  TransactionsList(
+                    userTransactions: userTransactions,
+                    deleteTransaction: deleteTransaction,
+                  )
                 ],
               )
             : Container(
