@@ -36,9 +36,14 @@ class TransactionTile extends StatelessWidget {
             fontSize: 12,
           ),
         ),
-        trailing: IconButton(
-            onPressed: () => {deleteTransaction(tx.id)},
-            icon: Icon(Icons.delete)),
+        trailing: MediaQuery.of(context).size.width > 420
+            ? TextButton.icon(
+                label: Text('Delete transaction'),
+                onPressed: () => {deleteTransaction(tx.id)},
+                icon: Icon(Icons.delete))
+            : IconButton(
+                onPressed: () => {deleteTransaction(tx.id)},
+                icon: Icon(Icons.delete)),
       ),
     );
   }

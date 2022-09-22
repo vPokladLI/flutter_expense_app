@@ -15,17 +15,13 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 550,
-      child: ListView.builder(
+    return ListView.builder(
         itemCount: userTransactions.length,
         itemBuilder: (context, index) {
           return TransactionTile(
             tx: userTransactions[index],
             deleteTransaction: deleteTransaction,
           );
-        },
-      ),
-    );
+        });
   }
 }

@@ -49,44 +49,51 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 15,
-      child: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
-              onEditingComplete: onsubmitHandler,
-            ),
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: amountController,
-              decoration: InputDecoration(labelText: 'Amount'),
-              onEditingComplete: onsubmitHandler,
-            ),
-            Container(
-              height: 100,
-              child: Row(
-                children: [
-                  Text(
-                    DateFormat.yMd().format(_selectedDate),
-                    style: TextStyle(color: Colors.grey[500], fontSize: 20),
-                  ),
-                  IconButton(
-                      padding: EdgeInsets.all(10),
-                      iconSize: 30,
-                      onPressed: _presentDatePicker,
-                      color: Theme.of(context).primaryColor,
-                      icon: Icon(Icons.calendar_month))
-                ],
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+              top: 15,
+              left: 15,
+              right: 15,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(labelText: 'Title'),
+                onEditingComplete: onsubmitHandler,
               ),
-            ),
-            ElevatedButton(
-              onPressed: onsubmitHandler,
-              child: Text('Add transaction'),
-            ),
-          ],
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: amountController,
+                decoration: InputDecoration(labelText: 'Amount'),
+                onEditingComplete: onsubmitHandler,
+              ),
+              Container(
+                height: 50,
+                child: Row(
+                  children: [
+                    Text(
+                      DateFormat.yMd().format(_selectedDate),
+                      style: TextStyle(color: Colors.grey[500], fontSize: 20),
+                    ),
+                    IconButton(
+                        padding: EdgeInsets.all(10),
+                        iconSize: 30,
+                        onPressed: _presentDatePicker,
+                        color: Theme.of(context).primaryColor,
+                        icon: Icon(Icons.calendar_month))
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: onsubmitHandler,
+                child: Text('Add transaction'),
+              ),
+            ],
+          ),
         ),
       ),
     );

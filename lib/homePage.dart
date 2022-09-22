@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import './models/transaction.dart';
@@ -20,6 +22,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  bool _isShowChartbar = false;
+
   void addTransaction(String title, double value, DateTime date) {
     date = date == null ? DateTime.now() : date;
     setState(() {
@@ -35,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startAddNewTransaction(ctx) {
     showModalBottomSheet<void>(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return AddTransactionForm(onSubmit: addTransaction);
@@ -44,26 +49,71 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () => _startAddNewTransaction(context),
-              icon: Icon(Icons.add))
-        ],
-        title: Text(
-          'My expense',
-        ),
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      actions: [
+        IconButton(
+            onPressed: () => _startAddNewTransaction(context),
+            icon: Icon(Icons.add))
+      ],
+      title: Text(
+        'My expense',
       ),
+    );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: userTransactions.length > 0
             ? Column(
                 children: [
-                  Chart(_recentTransactions),
-                  TransactionsList(
-                    userTransactions: userTransactions,
-                    deleteTransaction: deleteTransaction,
-                  )
+                  if (!isLandscape)
+                    Container(
+                        height: (MediaQuery.of(context).size.height -
+                                appBar.preferredSize.height -
+                                MediaQuery.of(context).padding.top) *
+                            0.25,
+                        child: Chart(_recentTransactions)),
+                  if (!isLandscape)
+                    Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.75,
+                      child: TransactionsList(
+                        userTransactions: userTransactions,
+                        deleteTransaction: deleteTransaction,
+                      ),
+                    ),
+                  if (isLandscape)
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text('Show chartbar?'),
+                      Switch(
+                        value: _isShowChartbar,
+                        onChanged: (val) {
+                          setState(() {
+                            _isShowChartbar = val;
+                          });
+                        },
+                      ),
+                    ]),
+                  _isShowChartbar
+                      ? Container(
+                          height: (MediaQuery.of(context).size.height -
+                                  appBar.preferredSize.height -
+                                  MediaQuery.of(context).padding.top) *
+                              0.7,
+                          child: Chart(_recentTransactions))
+                      : Container(
+                          height: (MediaQuery.of(context).size.height -
+                                  appBar.preferredSize.height -
+                                  MediaQuery.of(context).padding.top) *
+                              0.8,
+                          child: TransactionsList(
+                            userTransactions: userTransactions,
+                            deleteTransaction: deleteTransaction,
+                          ),
+                        )
                 ],
               )
             : Container(
