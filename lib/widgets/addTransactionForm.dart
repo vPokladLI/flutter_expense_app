@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../ui/buttons/ButtonAdaptive.dart';
+
 class AddTransactionForm extends StatefulWidget {
   final Function onSubmit;
   AddTransactionForm({Key key, this.onSubmit}) : super(key: key);
@@ -88,9 +90,9 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: onsubmitHandler,
-                child: Text('Add transaction'),
+              ButtonAdaptive(
+                pressHandler: onsubmitHandler,
+                text: 'Add transaction',
               ),
             ],
           ),
